@@ -30,12 +30,8 @@ class CnCInstallment {
 	public $isAddOn = false;
 	public $isPatch = false;
 	
-	private static $installments = null;
-	public static function getInstallment($pAbbr) {
-		if(is_null(self::$installments)) {
-			self::$installments = array();
-		}
-		
+	private static $installments = array();
+	public static function getInstallment($pAbbr) {		
 		if(!array_key_exists($pAbbr, self::$installments)) {
 			$inst = new CnCInstallment();
 			
