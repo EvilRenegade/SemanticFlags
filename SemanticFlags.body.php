@@ -259,22 +259,22 @@ class SemanticFlag {
 	public function getOutput() {
 		$retVal = "";
 		
-		$games = "";
-		$addons = "";
-		$patches = "";
+		$games = array();
+		$addons = array();
+		$patches = array();
 		foreach($this->installments as $installment) {
 			$text = "{{icongame|".$installment->abbr."}}";
 			
 			if($installment->isPatch) {
-				$patches .= $text;
+				$patches[] = $text;
 			} elseif($installment->isAddOn) {
-				$addons .= $text;
+				$addons[] = $text;
 			} else {
-				$games .= $text;
+				$games[] = $text;
 			}
 		}
 		
-		$retVal = $this->name . " is a " . $this->sections . " flag on games $games, add-ons $addons and patches $patches";
+		$retVal = $this->name . " is a " . $this->sections . " flag on games ".implode(', ', $games).", add-ons ".implode(', ', $addons)." and patches ".implode(', ', $patches).".";
 		
 		return $this->parser->recursiveTagParse($retVal, $this->frame);
 	}
