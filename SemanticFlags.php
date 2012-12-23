@@ -33,7 +33,8 @@ $wgExtensionCredits['parserhook'][] = array(
 	'url' => "https://github.com/EvilRenegade/SemanticFlags"
 );
 $wgExtensionMessagesFiles['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.i18n.php';
-$wgAutoloadClasses['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.body.php';
+$wgAutoloadClasses['SemanticFlag'] = dirname( __FILE__ ) . '/SemanticFlags.body.php';
+$wgAutoloadClasses['CnCInstallment'] = dirname( __FILE__ ) . '/SemanticFlags.body.php';
 
 $wgHooks['ParserFirstCallInit'][] = 'wfSemanticFlagsInit';
 
