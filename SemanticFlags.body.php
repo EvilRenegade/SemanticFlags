@@ -30,9 +30,12 @@ class CnCInstallment {
 	public $isAddOn = false;
 	public $isPatch = false;
 	
-	private static $installments = array();
-	echo "mind the gap";
+	private static $installments = null;
 	public static function getInstallment($pAbbr) {
+		if(is_null(self::$installments)) {
+			self::$installments = array();
+		}
+		
 		if(!array_key_exists($pAbbr, self::$installments)) {
 			$inst = new CnCInstallment();
 			
