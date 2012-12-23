@@ -31,7 +31,7 @@ class CnCInstallment {
 	public $isPatch = false;
 	
 	private static $installments = array();
-	public static getInstallment($pAbbr) {
+	public static function getInstallment($pAbbr) {
 		if(!array_key_exists($pAbbr, CnCInstallment::$installments)) {
 			$inst = new CnCInstallment();
 			
