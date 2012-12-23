@@ -36,6 +36,7 @@ $wgExtensionCredits['parserhook'][] = array(
 $wgHooks['ParserFirstCallInit'][] = 'wfSemanticFlagsInit';
 
 function wfSemanticFlagsInit(Parser $parser) {
+	$wgExtensionMessagesFiles['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.i18n.php';
 	$parser->setHook( 'flag', 'wfParseFlag' );
 	return true; //mandatory
 }
