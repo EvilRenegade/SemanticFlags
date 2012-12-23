@@ -398,6 +398,6 @@ TEMPLATE;
 
 		$retVal = str_replace($placeholders, $values, self::template);
 		
-		return $this->parser->recursiveTagParse($retVal, $this->frame);
+		return $retVal; //$this->parser->recursiveTagParse($retVal, $this->frame);
 	}
 }
