@@ -44,9 +44,9 @@ function wfSemanticFlagsInit(Parser $parser) {
 }
 
 /*
-	All information is conveyed via attributes, so $args is really all we care about.
+	All information is conveyed via attributes, so $args is where the info is at.
 */
 function wfParseFlag( $input, array $args, Parser $parser, PPFrame $frame ) {
-	$flag = new SemanticFlag($input, $args);
+	$flag = new SemanticFlag($input, $args, $parser, $frame);
 	return $flag->getOutput();
 }

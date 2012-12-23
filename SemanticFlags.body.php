@@ -117,6 +117,8 @@ class CnCInstallment {
 class SemanticFlag {
 	private $input = ""; // Input between the <sample> and </sample> tags, or null if the tag is "closed", i.e. <sample />
 	private $args = array(); // Tag arguments, which are entered like HTML tag attributes; this is an associative array indexed by attribute name.
+	private $parser = null;
+	private $frame = null;
 	
 	private $name = "";
 	private $values = "";
@@ -125,9 +127,11 @@ class SemanticFlag {
 	private $installments = array();
 	private $sections = "";
 	
-	public function __construct($pInput, $pArgs) {
+	public function __construct($pInput, $pArgs, &$pParser, &$pFrame) {
 		$this->input = $pInput;
 		$this->args = $pArgs;
+		$this->parser = &$pParser;
+		$this->frame = &$pFrame;
 		$this->parse();
 	}
 	
@@ -253,6 +257,8 @@ class SemanticFlag {
 	
 	// generates HTML from this flag's data
 	public function getOutput() {
+		$retVal = "";
+		
 		$games = "";
 		$addons = "";
 		$patches = "";
@@ -268,6 +274,8 @@ class SemanticFlag {
 			}
 		}
 		
-		return $this->name . " is a " . $this->sections . " flag on games $games, add-ons $addons and patches $patches";
+		$retVal = $this->name . " is a " . $this->sections . " flag on games $games, add-ons $addons and patches $patches";
+		
+		return $this->parser->recursiveTagParse($retVal, $this->frame);
 	}
 }
