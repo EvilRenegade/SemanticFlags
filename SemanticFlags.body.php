@@ -115,17 +115,127 @@ class CnCInstallment {
 }
 
 class SemanticFlag {
+		/*
+Thing
++  name
++  description
++  url 
+CreativeWork
++  about -> description
+  accountablePerson -> Renegade
+  audience -> C&C Modders
++  author -> {{REVISIONUSER}}
+  sourceOrganization -> C&C Community
+  genre -> technical information
++  headline -> name
+  isFamilyFriendly -> true
+  keywords -> modding-related
++  provider -> ModEnc
++  publisher -> ModEnc
++  publishingPrinciples -> ModEnc:Copyrights
+WebPage
++  isPartOf -> ModEnc
+  lastReviewed ->
+  reviewedBy -> 
+  specialty -> C&C Modding
+  relatedLink -> ini flag page
+  
+	private $name = "";
+	private $description = "";
+	private $values = "";
+	private $default = "";
+	private $special = "";
+	private $installments = array();
+	private $sections = "";
+	files*/
+	const $template = <<<TEMPLATE
+<table itemscope itemtype="http://schema.org/ItemPage" class="flag_header">
+	<tr>
+		<th>Flag:</th>
+		<td itemprop="name headline">%%FLAG%%</td>
+	</tr>
+	<tr style="display: none;">
+		<th>Description:</th>
+		<td itemprop="description about">%%DESC%%</td>
+	</tr>
+	<tr>
+		<th>Values:</th>
+		<td>
+			<table>
+				<tr>
+					<th>Type</th>
+					<td>%%DATATYPE%%</td>
+				</tr>
+				<tr>
+					<th>Default</th>
+					<td>%%DEFAULT%%</td>
+				</tr>
+				<tr>
+					<th>Special</th>
+					<td>%%SPECIAL%%</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th>Sections:</th>
+		<td>%%SECTIONS%%</td>
+	</tr>
+	<tr>
+		<th>Files:</th>
+		<td>%%FILES%%</td>
+	</tr>
+	<tr>
+		<th>Available in:</th>
+		<td>
+			<table>
+				<tr>
+					<th>Games</th>
+					<td>%%GAMES%%</td>
+				</tr>
+				<tr>
+					<th>Add-Ons</th>
+					<td>%%ADDONS%%</td>
+				</tr>
+				<tr>
+					<th>Patches</th>
+					<td>%%PATCHES%%</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr style="display: none;">
+		<th>URL</th>
+		<td itemprop="url">{{canonicalurl:{{PAGENAMEE}}}}</td>
+	</tr>
+	<tr style="display: none;">
+		<th>Author:</th>
+		<td itemprop="author">{{REVISIONUSER}}</td>
+	</tr>
+	<tr style="display: none;">
+		<th>Responsible Organization:</th>
+		<td itemprop="provider publisher isPartOf">{{SITENAME}}</td>
+	</tr>
+	<tr style="display: none;">
+		<th>License:</th>
+		<td itemprop="publishingPrinciples">{{canonicalurl:ModEnc:Copyrights}}</td>
+	</tr>
+</table>
+TEMPLATE;
+	
 	private $input = ""; // Input between the <sample> and </sample> tags, or null if the tag is "closed", i.e. <sample />
 	private $args = array(); // Tag arguments, which are entered like HTML tag attributes; this is an associative array indexed by attribute name.
 	private $parser = null;
 	private $frame = null;
 	
 	private $name = "";
+	private $description = "";
 	private $values = "";
 	private $default = "";
 	private $special = "";
 	private $installments = array();
 	private $sections = "";
+	private $files = "";
 	
 	public function __construct($pInput, $pArgs, &$pParser, &$pFrame) {
 		$this->input = $pInput;
@@ -154,6 +264,9 @@ class SemanticFlag {
 			switch($key) {
 				case "name":
 					$this->name = $saneValue;
+					break;
+				case "desc":
+					$this->description = $saneValue;
 					break;
 				case "values":
 					$this->values = $saneValue;
@@ -251,12 +364,17 @@ class SemanticFlag {
 				case "sections":
 					$this->sections = $saneValue;
 					break;
+				case "files":
+					$this->files = $saneValue;
+					break;
 			}
 		}
 	}
 	
 	// generates HTML from this flag's data
 	public function getOutput() {
+		$placeholders = array('%%FLAG%%', '%%DESC%%', '%%DATATYPE%%', '%%DEFAULT%%', '%%SPECIAL%%', '%%SECTIONS%%', '%%FILES%%', '%%GAMES%%', '%%ADDONS%%', '%%PATCHES%%');
+		$values = array($this->name, $this->description, $this->values, $this->default, $this->special, $this->sections, $this->files);
 		$retVal = "";
 		
 		$games = array();
@@ -274,7 +392,11 @@ class SemanticFlag {
 			}
 		}
 		
-		$retVal = $this->name . " is a " . $this->sections . " flag on games ".implode(', ', $games).", add-ons ".implode(', ', $addons)." and patches ".implode(', ', $patches).".";
+		$values[] = implode(', ', $games);
+		$values[] = implode(', ', $addons);
+		$values[] = implode(', ', $patches);
+
+		$retVal = preg_replace($placeholders, $values, self::template);
 		
 		return $this->parser->recursiveTagParse($retVal, $this->frame);
 	}
