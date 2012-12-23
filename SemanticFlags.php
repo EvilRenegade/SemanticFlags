@@ -32,11 +32,11 @@ $wgExtensionCredits['parserhook'][] = array(
 	'author' => "Renegade <Renegade@RenegadeProjects.com>",
 	'url' => "https://github.com/EvilRenegade/SemanticFlags"
 );
+$wgExtensionMessagesFiles['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.i18n.php';
 
 $wgHooks['ParserFirstCallInit'][] = 'wfSemanticFlagsInit';
 
 function wfSemanticFlagsInit(Parser $parser) {
-	$wgExtensionMessagesFiles['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.i18n.php';
 	$parser->setHook( 'flag', 'wfParseFlag' );
 	return true; //mandatory
 }
