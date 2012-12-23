@@ -396,7 +396,7 @@ TEMPLATE;
 		$values[] = implode(', ', $addons);
 		$values[] = implode(', ', $patches);
 
-		$retVal = preg_replace($placeholders, $values, self::template);
+		$retVal = str_replace($placeholders, $values, self::template);
 		
 		return $this->parser->recursiveTagParse($retVal, $this->frame);
 	}
