@@ -148,7 +148,7 @@ WebPage
 	private $installments = array();
 	private $sections = "";
 	files*/
-	const $template = <<<TEMPLATE
+	const template = <<<TEMPLATE
 <table itemscope itemtype="http://schema.org/ItemPage" class="flag_header">
 	<tr>
 		<th>Flag:</th>
