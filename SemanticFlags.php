@@ -33,6 +33,7 @@ $wgExtensionCredits['parserhook'][] = array(
 	'url' => "https://github.com/EvilRenegade/SemanticFlags"
 );
 $wgExtensionMessagesFiles['SemanticFlags'] = dirname( __FILE__ ) . '/SemanticFlags.i18n.php';
+$wgAutoloadClasses['SemanticFlags'] = dirname( __FILE__ ) . "/SemanticFlags.body.php";
 
 $wgHooks['ParserFirstCallInit'][] = 'wfSemanticFlagsInit';
 
@@ -41,6 +42,9 @@ function wfSemanticFlagsInit(Parser $parser) {
 	return true; //mandatory
 }
 
+/*
+	All information is conveyed via attributes, so $args is really all we care about.
+*/
 function wfParseFlag( $input, array $args, Parser $parser, PPFrame $frame ) {
         return "flag is being parsed";
 }

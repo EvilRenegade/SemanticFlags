@@ -28,5 +28,5 @@ $messages = array();
 
 $messages['en'] = array(
 	'semanticflags' => "SemanticFlags",
-	'semanticflags-desc' => "streamlines flag markup and exposes the information in a Schema.org-compatible way for search engines"
+	'semanticflags-desc' => "Streamlines flag markup and exposes the information in a Schema.org-compatible way for search engines"
 );
