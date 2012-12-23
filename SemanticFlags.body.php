@@ -31,8 +31,9 @@ class CnCInstallment {
 	public $isPatch = false;
 	
 	private static $installments = array();
+	echo "mind the gap";
 	public static function getInstallment($pAbbr) {
-		if(!array_key_exists($pAbbr, CnCInstallment::$installments)) {
+		if(!array_key_exists($pAbbr, self::$installments)) {
 			$inst = new CnCInstallment();
 			
 			switch($pAbbr) {
@@ -107,10 +108,10 @@ class CnCInstallment {
 					break;
 			}
 			
-			CnCInstallment::$installments[$pAbbr] = $inst;
+			self::$installments[$pAbbr] = $inst;
 		}
 		
-		return CnCInstallment::$installments[$pAbbr];
+		return self::$installments[$pAbbr];
 	}
 }
 
