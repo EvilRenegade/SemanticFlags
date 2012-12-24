@@ -206,22 +206,26 @@ WebPage
 	</tr>
 	<tr style="display: none;">
 		<th>URL</th>
-		<td itemprop="url">{{canonicalurl:{{PAGENAMEE}}}}</td>
+		<td itemprop="url">%%URL%%</td>
 	</tr>
 	<tr style="display: none;">
 		<th>Author:</th>
-		<td itemprop="author">{{REVISIONUSER}}</td>
+		<td itemprop="author">%%USER%%</td>
 	</tr>
 	<tr style="display: none;">
 		<th>Responsible Organization:</th>
-		<td itemprop="provider publisher isPartOf">{{SITENAME}}</td>
+		<td itemprop="provider publisher isPartOf">%%PUBLISHER%%</td>
 	</tr>
 	<tr style="display: none;">
 		<th>License:</th>
-		<td itemprop="publishingPrinciples">{{canonicalurl:ModEnc:Copyrights}}</td>
+		<td itemprop="publishingPrinciples">%%LICENSE%%</td>
 	</tr>
 </table>
 TEMPLATE;
+	const url = '{{canonicalurl:{{PAGENAMEE}}}}';
+	const user = '{{REVISIONUSER}}';
+	const publisher = '{{SITENAME}}';
+	const license = '{{canonicalurl:ModEnc:Copyrights}}';
 	
 	private $input = ""; // Input between the <sample> and </sample> tags, or null if the tag is "closed", i.e. <sample />
 	private $args = array(); // Tag arguments, which are entered like HTML tag attributes; this is an associative array indexed by attribute name.
@@ -373,8 +377,35 @@ TEMPLATE;
 	
 	// generates HTML from this flag's data
 	public function getOutput() {
-		$placeholders = array('%%FLAG%%', '%%DESC%%', '%%DATATYPE%%', '%%DEFAULT%%', '%%SPECIAL%%', '%%SECTIONS%%', '%%FILES%%', '%%GAMES%%', '%%ADDONS%%', '%%PATCHES%%');
-		$values = array($this->name, $this->description, $this->values, $this->default, $this->special, $this->sections, $this->files);
+		$placeholders = array(
+			'%%FLAG%%',
+			'%%DESC%%',
+			'%%DATATYPE%%',
+			'%%DEFAULT%%',
+			'%%SPECIAL%%',
+			'%%SECTIONS%%',
+			'%%FILES%%',
+			'%%URL%%',
+			'%%USER%%',
+			'%%PUBLISHER%%'
+			'%%LICENSE%%',
+			'%%GAMES%%',
+			'%%ADDONS%%',
+			'%%PATCHES%%'
+		);
+		$values = array(
+			$this->name,
+			$this->description,
+			$this->values,
+			$this->default,
+			$this->special,
+			$this->sections,
+			$this->files,
+			self::url,
+			self::user,
+			self::publisher,
+			self::license
+		);
 		$retVal = "";
 		
 		$games = array();
