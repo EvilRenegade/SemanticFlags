@@ -395,9 +395,18 @@ TEMPLATE;
 		$values[] = implode(', ', $games);
 		$values[] = implode(', ', $addons);
 		$values[] = implode(', ', $patches);
+		
+		$valueCount = count($values);
+		
+		// replace wikitext in the values
+		// this is necessary because doing this over the whole return value neuters
+		// the exact HTML we're trying to generate.
+		for(var i = 0; i < $valueCount; ++$i) {
+			$values[$i] = $this->parser->recursiveTagParse($values[$i], $this->frame);
+		}
 
 		$retVal = str_replace($placeholders, $values, self::template);
 		
-		return $this->parser->recursiveTagParse($retVal, $this->frame);
+		return $retVal;
 	}
 }
