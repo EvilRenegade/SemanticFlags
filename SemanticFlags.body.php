@@ -387,7 +387,7 @@ TEMPLATE;
 			'%%FILES%%',
 			'%%URL%%',
 			'%%USER%%',
-			'%%PUBLISHER%%'
+			'%%PUBLISHER%%',
 			'%%LICENSE%%',
 			'%%GAMES%%',
 			'%%ADDONS%%',
